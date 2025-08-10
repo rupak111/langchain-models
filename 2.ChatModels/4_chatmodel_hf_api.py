@@ -1,15 +1,14 @@
-from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
+from langchain_huggingface import HuggingFaceEndpoint
 from dotenv import load_dotenv
+import os
 
-load_dotenv()
+load_dotenv()  # Loads HUGGINGFACEHUB_ACCESS_TOKEN from .env
 
 llm = HuggingFaceEndpoint(
-    repo_id="TinyLlama/TinyLlama-1.1B-Chat-v1.0",
-    task="text-generation"
+    repo_id="microsoft/DialoGPT-medium",  # Supported for chat-like text generation
+    task="text-generation",
+    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
 )
 
-model = ChatHuggingFace(llm=llm)
-
-result = model.invoke("What is the capital of India")
-
-print(result.content)
+response = llm.invoke("What is the capital of India?")
+print(response)
